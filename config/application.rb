@@ -19,6 +19,8 @@ module DevEveryleaf
                        controller_specs: false,
                        request_specs: false
     end
+    config.time_zone = "Paris"
+    config.active_record.default_timezone = :local
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
