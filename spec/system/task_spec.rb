@@ -38,8 +38,8 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
         visit tasks_path
         task_list = all(".task_row")
         
-        expect(task_list[0]).to have_content "title"
-        expect(task_list[-1]).to have_content "title2"
+        expect(task_list[0]).to have_content "title2"
+        expect(task_list[-1]).to have_content "title"
 
       end
     end
