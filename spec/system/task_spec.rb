@@ -31,6 +31,18 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
         # expectの結果が true ならtest成功、false なら失敗として結果が出力される
       end
     end
+    context 'When tasks are arranged in descending order of deadline date and time' do
+      it 'Task with higher deadline is displayed at the top' do  
+        
+        Task.order_by_created_at
+        visit tasks_path
+        task_list = all(".task_row")
+        
+        expect(task_list[0]).to have_content "title"
+        expect(task_list[-1]).to have_content "title2"
+
+      end
+    end
   end
   describe "Fonction d'affichage détaillée" do
      context "Lors de la transition vers un écran de détails de tâche" do
