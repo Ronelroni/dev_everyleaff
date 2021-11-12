@@ -16,7 +16,7 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
     context "Lors de la transition vers l'écran de liste" do
       it "La liste des tâches créées s'affiche" do
         # testで使用するためのタスクを作成
-        task = FactoryBot.create(:task, name: 'title', content: "content", expiry_date: DateTime.now, expiry_date:  DateTime.now, status: "unstarted", priority: 'Low') 
+        task = FactoryBot.create(:task, name: 'title', content: "content", deadline: DateTime.now,  deadline:  DateTime.now, status: "unstarted", priority: 'Low') 
         # Transition vers la page de liste des tâches
         visit tasks_path
         current_path
@@ -49,12 +49,12 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
      end
   end
   describe 'Fonction de recherche' do
-    let!(:task) { FactoryBot.create(:task, name: "title", content: "content1", expiry_date:  DateTime.now, status: "unstarted", priority: 'Low') }
-    let!(:second_task) { FactoryBot.create(:second_task, name: "secondtask", content: "content2", expiry_date: ( DateTime.now +2), status: "progress", priority: 'High') }
+    let!(:task) { FactoryBot.create(:task, name: "title", content: "content1", deadline:  DateTime.now, status: "unstarted", priority: 'Low') }
+    let!(:second_task) { FactoryBot.create(:second_task, name: "secondtask", content: "content2", deadline: ( DateTime.now +2), status: "progress", priority: 'High') }
     # before do
     #   # 必要に応じて、testデータの内容を変更して構わない
-    #   @task = FactoryBot.create(:task, name: "task", content: "content1", expiry_date:  DateTime.now)
-    #   @second_task = FactoryBot.create(:second_task, name: "task2", content: "content2", expiry_date: ( DateTime.now +2))
+    #   @task = FactoryBot.create(:task, name: "task", content: "content1", deadline:  DateTime.now)
+    #   @second_task = FactoryBot.create(:second_task, name: "task2", content: "content2", deadline: ( DateTime.now +2))
     # end
     context 'Si vous effectuez une recherche floue par Title' do
       it "Filtrer par tâches qui incluent des mots-clés de recherche" do
