@@ -1,24 +1,44 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Model User
 
-Things you may want to cover:
+| Colums   | Description |
+| -------- | ----------- |
+| name     | string      |
+| email    | string      |
+| password | string      |
+| is_admin | boolean     |
 
-* Ruby version
+### Model Task
 
-* System dependencies
+| Colums      | Description |
+| ----------- | ----------- |
+| name        | string      |
+| content     | string      |
+| Deadline    | string      |
+| status      | boolean     |
+| priority    | string      |
+| user_id     | foreign_key |
 
-* Configuration
+### Ticket
 
-* Database creation
+| Colums | Description |
+| ------ | ----------- |
+| name   | string      |
 
-* Database initialization
+### task_ticket_relation
 
-* How to run the test suite
+| Colums    | Description |
+| --------- | ----------- |
+| task_id   | foreign_key |
+| ticket_id | foreign_key |
 
-* Services (job queues, cache servers, search engines, etc.)
+### Heroku deployment
 
-* Deployment instructions
-
-* ...
+- [ ] heroku create 
+- [ ] rails assets:precompile RAILS_ENV=Production 
+- [ ] git add 
+- [ ] git commit -m "message" 
+- [ ] git push heroku main 
+- [ ] heroku run rails db:migrate 
+- [ ] heroku open
