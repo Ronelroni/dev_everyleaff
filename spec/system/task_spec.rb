@@ -33,7 +33,7 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
       it 'Task with higher deadline is displayed at the top' do  
         
         Task.order_by_deadline
-        visit tasks_path(sort_expired: "true")
+        visit tasks_path(deadline: "true")
         task_list = all(".task_row")
         
         expect(task_list[0]).to have_content "title"
