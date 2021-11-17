@@ -32,6 +32,7 @@ class Admin::UsersController < ApplicationController
   
     def create
       @user = User.new(user_params)
+      @user.is_admin = false
       
       respond_to do |format|
         if @user.save
