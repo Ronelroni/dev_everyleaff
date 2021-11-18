@@ -12,7 +12,7 @@ class TasksController < ApplicationController
 
 
 
-    @tasks = Task.all.order("created_at desc")
+    
 
   end
 
