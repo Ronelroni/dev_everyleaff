@@ -14,13 +14,16 @@
       <% end %>
         <%= f.select :search_status, Task.statuses.map { |k, v| [k, v] }, class: 'search_status form-control', prompt: 'status'%>
         <%= f.select :search_priority, Task.priorities.map { |k, v| [k, v] }, class: 'search_priority form-control', prompt: 'priority'%>
+        
+        <%= f.select :search_label, @labels.collect { |p| [p.name, p.id]}, class: "search_label", prompt: 'Tag' %>
         <%= f.submit 'search' ,class:'btn btn-light'%>
 
+      
       <% end %>
     </div>
   </div>
 </div>
-<%= link_to "sort by end deadline", tasks_path(deadline: "true") ,class: 'col btn btn-secondary text-light'%>
+<%= link_to "sort by end deadline", tasks_path(sort_expired: "true") ,class: 'col btn btn-secondary text-light'%>
   <%= link_to "sort by priority", tasks_path(sort_by_priority: "true") ,class: 'col btn btn-secondary text-light'%>
 
 <%= link_to 'New Task', new_task_path, class: "btn btn-primary" %>
@@ -35,6 +38,7 @@
       <th>Status</th>
       <th>Priority</th>
       <th>Author</th>
+      <th>Labels</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -49,6 +53,11 @@
         <td><%= task.status %></td>
         <td><%= task.priority %></td>
         <td><%= task.user.name %></td>
+        <td>
+          <%task.labels.all.each do |label|%>
+          <%= label.name%> <br>
+          <%end%>
+        </td>
         <td><%= link_to 'Show', task , class: 'btn btn-outline-primary'%> 
           <%= link_to 'Edit', edit_task_path(task), class: 'btn btn-outline-success' %>
           <%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
@@ -57,7 +66,6 @@
     <% end %>
   </tbody>
 </table>
-
 
 <br>
 
