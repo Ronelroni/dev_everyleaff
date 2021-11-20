@@ -23,7 +23,7 @@
     </div>
   </div>
 </div>
-<%= link_to "sort by end deadline", tasks_path(sort_expired: "true") ,class: 'col btn btn-secondary text-light'%>
+<%= link_to "sort by end deadline", tasks_path(deadline: "true") ,class: 'col btn btn-secondary text-light'%>
   <%= link_to "sort by priority", tasks_path(sort_by_priority: "true") ,class: 'col btn btn-secondary text-light'%>
 
 <%= link_to 'New Task', new_task_path, class: "btn btn-primary" %>

@@ -78,7 +78,7 @@ RSpec.describe 'User registration / login / logout function', type: :system do
         user_login        
         click_on "Manage"
         sleep 2
-        expect(page).to have_content 'New User'
+        expect(page).to have_content 'only the administrator can access it'
       end
     end
 
@@ -120,7 +120,7 @@ RSpec.describe 'User registration / login / logout function', type: :system do
         fill_in 'user[password_confirmation]', with: '00000000'
         click_on "Update"
         
-        expect(page).to have_content 'New Task'
+        expect(page).to have_content 'New'
       end
 
       it 'Administrators can delete users' do

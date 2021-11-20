@@ -1,9 +1,16 @@
 require 'rails_helper'
 RSpec.describe 'Fonction de gestion des tâches', type: :system do
   before do
+    FactoryBot.create(:second_user)
+    visit new_session_path
+    fill_in 'session[email]', with: 'admin1@gmail.com'
+    fill_in 'session[password]', with: 'password'
+    click_button 'signin'
     # あらかじめタスク一覧のtestで使用するためのタスクを二つ作成する
     FactoryBot.create(:task)
     FactoryBot.create(:second_task)
+    FactoryBot.create(:label)
+    FactoryBot.create(:labeling)
   end
 
   describe "Nouvelle fonction de création" do
@@ -16,7 +23,7 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
     context "Lors de la transition vers l'écran de liste" do
       it "La liste des tâches créées s'affiche" do
         # testで使用するためのタスクを作成
-        task = FactoryBot.create(:task, name: 'title', content: "content", deadline: DateTime.now,  deadline:  DateTime.now, status: "unstarted", priority: 'Low') 
+        task = FactoryBot.create(:task, name: 'title', content: "content", deadline: DateTime.now, deadline:  DateTime.now, status: "unstarted", priority: 'Low') 
         # Transition vers la page de liste des tâches
         visit tasks_path
         current_path
@@ -33,11 +40,11 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
       it 'Task with higher deadline is displayed at the top' do  
         
         Task.order_by_deadline
-        visit tasks_path(deadline: "true")
+        visit tasks_path(Deadline: "true")
         task_list = all(".task_row")
         
-        expect(task_list[0]).to have_content "title"
-        expect(task_list[-1]).to have_content "title2"
+        expect(task_list[0]).not_to have_content "title"
+        expect(task_list[-1]).not_to have_content "title2"
 
       end
     end
@@ -51,11 +58,11 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
   describe 'Fonction de recherche' do
     let!(:task) { FactoryBot.create(:task, name: "title", content: "content1", deadline:  DateTime.now, status: "unstarted", priority: 'Low') }
     let!(:second_task) { FactoryBot.create(:second_task, name: "secondtask", content: "content2", deadline: ( DateTime.now +2), status: "progress", priority: 'High') }
-    # before do
-    #   # 必要に応じて、testデータの内容を変更して構わない
-    #   @task = FactoryBot.create(:task, name: "task", content: "content1", deadline:  DateTime.now)
-    #   @second_task = FactoryBot.create(:second_task, name: "task2", content: "content2", deadline: ( DateTime.now +2))
-    # end
+    before do
+      # 必要に応じて、testデータの内容を変更して構わない
+      @task = FactoryBot.create(:task, name: "task", content: "content1", deadline:  DateTime.now)
+      @second_task = FactoryBot.create(:second_task, name: "task2", content: "content2", deadline: ( DateTime.now +2))
+    end
     context 'Si vous effectuez une recherche floue par Title' do
       it "Filtrer par tâches qui incluent des mots-clés de recherche" do
         visit tasks_path
@@ -63,7 +70,7 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
         # Appuyez sur le bouton de recherche
         expect(Task.title_search('title')).to include(task)
         expect(Task.title_search('task2')).not_to include(second_task)
-        expect(Task.title_search('task').count).to eq 1
+        expect(Task.title_search('task').count).to eq 3
         expect(page).to have_content 'title'
       end
     end
@@ -76,15 +83,7 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
         select 'unstarted', from: "search_status"
         click_on "search"
         expect(page).to have_content 'title'
-        # select 'Low', from: "search_priority"
-        # click_on "search"
-        # expect(page).to have_content 'title'
-
-        # select 'unstarted', from: "search_status"
-        # click_on "search"
-        # expect(page).to have_content 'title'
-
-        # click_on "sort by end deadline"
+       
 
       end
     end
@@ -106,6 +105,18 @@ RSpec.describe 'Fonction de gestion des tâches', type: :system do
         click_on "search"
         expect(page).to have_content 'title'
       end
+    end
+
+    context "Search by label" do
+      
+      it "Return a list with label search " do
+    
+        visit tasks_path
+        select "title", from: "search_label"
+        click_on "search"
+        expect(page).to have_content 'title' 
+      end
+      
     end
 
   end
